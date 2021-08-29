@@ -1,35 +1,45 @@
 pipeline {
   agent any
   stages {
-    stage('ConstruyendoAPP') {
+    stage('Construyendo la App') {
       steps {
-        echo 'Paso1: Construyendo la App'
+        echo 'Paso 1 construyendo la App'
         sh 'sh run_build_script.sh'
       }
     }
 
-    stage('Prueba Linux') {
+    stage('Test Linux') {
       steps {
-        echo 'Paso1: Realizando Prueba en Linux'
+        echo 'Realizando la prueba en Linux'
         sh 'sh run_linux_test.sh'
       }
     }
 
-    stage('Test Manual') {
+    stage('Comprobacion manual') {
       steps {
-        echo 'Esperando la confirmacion manual'
-        input 'Está todo Ok para desplegar'
+        echo 'Esperando para la confirmacion manual'
+        input 'Esta todo OK para desplegar'
         timestamps() {
-          echo 'Momeno de confirmacion del Ok Mnaual'
+          echo 'Momento de confirmacion del ok manual'
         }
 
       }
     }
 
-    stage('Desplieqgue en Prod') {
+    stage('Desplegando en Produccion') {
       steps {
-        echo 'Desplegando en Produccion'
+        echo 'Desplegando en produccion'
       }
+    }
+
+  }
+  post {
+    always {
+      archiveArtifacts(artifacts: 'demoapp.jar', fingerprint: true)
+    }
+
+    failure {
+      mail(to: 'gp1304@gmail.com', subject: "Failed Pipeline ${currentBuild.fullDisplayName}", body: " For details about the failure, see ${env.BUILD_URL}")
     }
 
   }
