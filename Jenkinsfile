@@ -4,21 +4,21 @@ pipeline {
     stage('ConstruyendoAPP') {
       steps {
         echo 'Paso1: Construyendo la App'
-        sh 'run_build_script.sh'
+        sh 'sh run_build_script.sh'
       }
     }
 
     stage('Prueba Linux') {
       steps {
         echo 'Paso1: Realizando Prueba en Linux'
-        sh 'run_linux_test.sh'
+        sh 'sh run_linux_test.sh'
       }
     }
 
     stage('Test Manual') {
       steps {
         echo 'Esperando la confirmacion manual'
-        input 'Est· todo Ok para desplegar'
+        input 'Est√° todo Ok para desplegar'
         timestamps() {
           echo 'Momeno de confirmacion del Ok Mnaual'
         }
